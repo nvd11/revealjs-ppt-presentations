@@ -218,7 +218,7 @@ class SqlAgent:
         </section>
       </section>
 
-      <!-- Page 7: MCP vs Local Tool -->
+      <!-- Page 7 -->
       <section>
         <!-- 7.1: Concept Comparison -->
         <section data-transition="slide">
@@ -226,66 +226,49 @@ class SqlAgent:
           <p style="font-size: 0.8em; color: #ccc;">(Model Context Protocol: Open Standard for Tools)</p>
           
           <div style="display: flex; justify-content: space-between; margin-top: 30px;">
-            <!-- Local Tool -->
             <div class="box fragment fade-right" style="width: 45%;">
               <h3 style="color: #ff4d4d; font-size: 1.1em;">🧱 Local Function Tool</h3>
-              <div style="text-align: center; margin: 15px 0; font-size: 1.5em;">
-                🤖 <span style="color: #888; font-size: 0.6em; vertical-align: middle;">-- calls --&gt;</span> ⚙️
-              </div>
+              <div style="text-align: center; margin: 15px 0; font-size: 1.5em;">🤖 <span style="color: #888; font-size: 0.6em; vertical-align: middle;">-- calls --&gt;</span> ⚙️</div>
               <ul style="font-size: 0.7em;">
                 <li><strong>Hardcoded</strong> in the Agent's codebase</li>
-                <li>Bound to the <strong>same language</strong> (e.g., Python agent -> Python tool)</li>
+                <li>Bound to the <strong>same language</strong></li>
                 <li>Adding new tools requires code changes</li>
               </ul>
             </div>
-
-            <!-- MCP Server -->
             <div class="box fragment fade-left" style="width: 45%;">
               <h3 style="color: #4cd137; font-size: 1.1em;">🌐 MCP Server & Tool</h3>
-              <div style="text-align: center; margin: 15px 0; font-size: 1.5em;">
-                🤖 <span style="color: #4cd137; font-size: 0.6em; vertical-align: middle;">&lt;-- stdio/SSE --&gt;</span> 📦
-              </div>
+              <div style="text-align: center; margin: 15px 0; font-size: 1.5em;">🤖 <span style="color: #4cd137; font-size: 0.6em; vertical-align: middle;">&lt;-- stdio/SSE --&gt;</span> 📦</div>
               <ul style="font-size: 0.7em;">
                 <li>Runs as a <strong>standalone process</strong> (Server)</li>
-                <li><strong>Language agnostic</strong> (Python agent can call TS tool)</li>
+                <li><strong>Language agnostic</strong></li>
                 <li><strong>Plug & Play:</strong> Agent dynamically discovers available tools!</li>
               </ul>
             </div>
           </div>
-          
-          <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">
-            (Press ↓ to see the Code Comparison)
-          </p>
+          <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">(Press ↓ to see the Code Comparison)</p>
         </section>
 
         <!-- 7.2: Code Comparison -->
         <section data-transition="convex">
           <h2 style="font-size: 1.3em;">Code Comparison: <span style="color:#ff4d4d">Local</span> vs <span style="color:#4cd137">MCP</span></h2>
-          
           <div style="display: flex; justify-content: space-between; align-items: stretch; margin-top: 20px;">
-            
-            <!-- Local Code -->
             <div class="fragment fade-right" style="width: 48%; text-align: left;">
               <h4 style="color: #ff4d4d; font-size: 0.85em; margin-bottom: 10px;">🧱 Local Tool (Hardcoded)</h4>
               <pre style="margin: 0; box-shadow: 0 0 15px rgba(255,77,77,0.2); border-radius: 8px;"><code class="language-python" data-line-numbers="1-3|6-8" style="font-size: 0.65em; line-height: 1.3;"># 1. Define function directly in Python
 def fetch_weather(city: str):
     return weather_api.get(city)
 
-
 # 2. Hardcode the execution routing
 if tool_name == "fetch_weather":
     result = fetch_weather(args["city"])
 </code></pre>
             </div>
-
-            <!-- MCP Code -->
             <div class="fragment fade-left" style="width: 48%; text-align: left;">
               <h4 style="color: #4cd137; font-size: 0.85em; margin-bottom: 10px;">🌐 MCP Tool (Dynamic)</h4>
               <pre style="margin: 0; box-shadow: 0 0 15px rgba(76,209,55,0.2); border-radius: 8px;"><code class="language-python" data-line-numbers="1-2|4-6|8-10" style="font-size: 0.65em; line-height: 1.3;"># 1. Connect to standalone Server (e.g. Node.js)
 client = MCPClient(cmd="npx", args=["-y", "weather-mcp"])
 
 # 2. Auto-discover tools dynamically!
-# No need to rewrite system prompts manually
 tools = await client.list_tools() 
 
 # 3. Call tool via standard protocol (JSON-RPC)
@@ -295,12 +278,91 @@ result = await client.call_tool(
 </code></pre>
             </div>
           </div>
-          
           <div class="fragment fade-up" style="margin-top: 30px; padding: 15px; background: rgba(76, 209, 55, 0.1); border-left: 4px solid #4cd137; font-size: 0.6em; text-align: left; line-height: 1.5;">
             <strong style="color: #4cd137; font-size: 1.2em;">Why it's a Game Changer 🚀:</strong><br>
             Instead of writing/importing every tool yourself, you just start a community MCP Server (like GitHub, Slack, or File System MCP) and connect your Agent to it. The Agent <strong>automatically discovers</strong> the tools and gains superpowers instantly!
           </div>
         </section>
+      </section>
+
+      <!-- Page 8: Frameworks & Function Calling -->
+      <section>
+        
+        <!-- 8.1: Agent Frameworks -->
+        <section data-transition="slide">
+          <h2 style="font-size: 1.4em;">Agent Frameworks: <span class="highlight-blue">LangChain</span> & <span class="highlight-yellow">LangGraph</span></h2>
+          
+          <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+            <div class="box fragment fade-right" style="width: 48%;">
+              <h3 style="color: #4db8ff;">🦜🔗 LangChain</h3>
+              <ul style="font-size: 0.75em; text-align: left;">
+                <li>The foundational integration framework</li>
+                <li>Provides standard interfaces for LLMs, Prompts, and Tools</li>
+                <li>Great for linear chains and simple ReAct agents</li>
+              </ul>
+            </div>
+            
+            <div class="box fragment fade-left" style="width: 48%;">
+              <h3 style="color: #ffcc00;">🕸️ LangGraph</h3>
+              <ul style="font-size: 0.75em; text-align: left;">
+                <li>Built on top of LangChain for complex Agents</li>
+                <li>Models logic as <strong>State Machines (Graphs)</strong></li>
+                <li>Perfect for cyclic flows (like ReAct loops) and Multi-Agent orchestration</li>
+              </ul>
+            </div>
+          </div>
+          
+          <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">
+            (Press ↓ to see "Function Calling" vs "Non-Function Calling")
+          </p>
+        </section>
+
+        <!-- 8.2: Function Calling -->
+        <section data-transition="convex">
+          <h2 style="font-size: 1.3em;">What is <span class="highlight-pink">Function Calling</span>? ☎️</h2>
+          <p class="fragment fade-up" style="font-size: 0.75em; margin-bottom: 20px; color: #ddd;">
+            It's a feature where the model is <strong>fine-tuned</strong> to natively understand tool schemas and reliably output structured arguments, rather than just generating plain text.
+          </p>
+          
+          <div style="display: flex; justify-content: space-between; align-items: stretch;">
+            
+            <!-- Without Tool Calling -->
+            <div class="box fragment fade-right" style="width: 48%; padding: 15px;">
+              <h4 style="color: #ff4d4d; font-size: 0.9em; margin-bottom: 10px;">❌ Non-Tool Calling Model</h4>
+              <ul style="font-size: 0.6em; text-align: left; margin-bottom: 15px;">
+                <li>Relies purely on <strong>Prompt Engineering</strong> (like our Page 6 demo)</li>
+                <li>You must beg the model: <em>"Please output JSON..."</em></li>
+                <li>Prone to formatting errors and hallucinations</li>
+              </ul>
+              <pre style="margin: 0; box-shadow: 0 0 10px rgba(255,77,77,0.2);"><code class="language-python" style="font-size: 0.75em; padding: 10px; line-height: 1.3;"># Rely on Prompt
+prompt = "Use tool X. Output JSON: {'tool': 'X'}"
+res = llm.chat(prompt)
+
+# ⚠️ Manual parsing, might crash!
+action = json.loads(res.text) 
+</code></pre>
+            </div>
+
+            <!-- With Tool Calling -->
+            <div class="box fragment fade-left" style="width: 48%; padding: 15px;">
+              <h4 style="color: #4cd137; font-size: 0.9em; margin-bottom: 10px;">✅ Tool Calling Model</h4>
+              <ul style="font-size: 0.6em; text-align: left; margin-bottom: 15px;">
+                <li>Supported via Native API parameters (e.g. <code>tools=[...]</code>)</li>
+                <li>Model natively returns a structured <strong>Tool Call Object</strong></li>
+                <li>Highly reliable with built-in schema validation</li>
+              </ul>
+              <pre style="margin: 0; box-shadow: 0 0 10px rgba(76,209,55,0.2);"><code class="language-python" style="font-size: 0.75em; padding: 10px; line-height: 1.3;"># Native Tool Calling Integration
+res = llm.chat(query, tools=[weather_tool])
+
+if res.tool_calls:
+    # ✅ 100% Guaranteed structured object
+    call = res.tool_calls[0] 
+</code></pre>
+            </div>
+            
+          </div>
+        </section>
+        
       </section>
 
     </div>
