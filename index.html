@@ -28,15 +28,38 @@
     .box h3 { font-size: 1.2em; margin-bottom: 20px;}
     .box ul { font-size: 0.8em; margin: 0; padding-left: 20px;}
     .box li { margin-bottom: 10px; }
-    .flow-step {
-      margin-bottom: 12px;
-      padding: 12px 15px;
-      border-radius: 8px;
-      text-align: left;
-      font-size: 0.7em;
-      line-height: 1.3;
+
+    /* Flowchart Styles */
+    .flowchart {
+      display: grid;
+      grid-template-columns: 1fr 120px 1fr;
+      grid-template-rows: auto auto auto auto auto;
+      gap: 10px 20px;
+      align-items: center;
+      justify-items: center;
+      font-size: 0.55em;
+      margin-top: 30px;
+      width: 100%;
     }
-    .flow-step strong { display: block; margin-bottom: 5px; font-size: 1.1em; }
+    .fc-node {
+      padding: 20px 15px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid #555;
+      text-align: center;
+      width: 100%;
+      box-sizing: border-box;
+      line-height: 1.4;
+    }
+    .fc-node strong { display: block; font-size: 1.2em; margin-bottom: 5px; }
+    .fc-blue { border-color: #4db8ff; box-shadow: 0 0 15px rgba(77, 184, 255, 0.2); }
+    .fc-blue strong { color: #4db8ff; }
+    .fc-yellow { border-color: #ffcc00; box-shadow: 0 0 20px rgba(255, 204, 0, 0.2); }
+    .fc-yellow strong { color: #ffcc00; }
+    .fc-green { border-color: #4cd137; box-shadow: 0 0 15px rgba(76, 209, 55, 0.2); }
+    .fc-green strong { color: #4cd137; }
+    .fc-white { border-color: #fff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.1); }
+    .fc-edge { font-size: 2.2em; color: #888; }
   </style>
 </head>
 <body>
@@ -127,49 +150,65 @@
         </section>
       </section>
 
-      <!-- Page 4: Logic Flow -->
+      <!-- Page 4: Logic Flow (Dynamic Chart) -->
       <section>
         <section data-transition="slide">
-          <h2 style="font-size: 1.6em;">Agent Internal <span class="highlight-blue">Logic Flow</span> 🔄</h2>
+          <h2 style="font-size: 1.4em;">Agent Internal <span class="highlight-blue">Logic Flow</span> 🔄</h2>
           
-          <div style="margin-top: 20px;">
-            
-            <div class="flow-step fragment fade-up" style="border-left: 4px solid #4db8ff; background: rgba(77, 184, 255, 0.1);">
-              <strong style="color: #4db8ff;">1. Initialize System Prompt 📝</strong>
-              Define skills, list tools & descriptions. Instruct the LLM to select tools based on queries and output a specific format (Tool Name + Parameters).
+          <div class="flowchart">
+            <!-- Row 1 -->
+            <div class="fc-node fc-blue fragment fade-down" style="grid-column: 1;">
+              <strong>1. System Prompt 📝</strong>
+              <span style="color:#ddd">Define Skills & Tools list</span>
+            </div>
+            <div class="fc-edge fragment fade-down" style="grid-column: 2;">➕</div>
+            <div class="fc-node fc-white fragment fade-down" style="grid-column: 3;">
+              <strong>User Query 🗣️</strong>
+              <span style="color:#ddd">Task or Question</span>
             </div>
             
-            <div class="flow-step fragment fade-up" style="border-left: 4px solid #fff; background: rgba(255, 255, 255, 0.05);">
-              <strong>2. Send to LLM 👤</strong>
-              Agent combines the <em>System Prompt</em> and <em>User Query</em>, then sends them to the LLM.
+            <!-- Row 2 -->
+            <div class="fc-edge fragment fade-down" style="grid-column: 1 / span 3; text-align: center;">
+              ⬇️ <br><span style="font-size: 0.3em; vertical-align: top; color: #ccc;">2. Combine & Send</span>
             </div>
 
-            <div class="flow-step fragment fade-right" style="border-left: 4px solid #ffcc00; background: rgba(255, 204, 0, 0.1);">
-              <strong style="color: #ffcc00;">3. LLM Decision 🧠</strong>
-              LLM outputs a structured command (Tool Name + Parameters).
+            <!-- Row 3: LLM Decision -->
+            <div class="fc-node fc-yellow fragment zoom-in" style="grid-column: 1 / span 3; width: 60%; padding: 25px;">
+              <strong style="font-size: 1.4em;">3. 🧠 LLM Decision</strong>
+              <span style="color:#ddd;">Analyzes query & tools to make a choice</span>
             </div>
 
-            <div class="flow-step fragment fade-left" style="border-left: 4px solid #4cd137; background: rgba(76, 209, 55, 0.1);">
-              <strong style="color: #4cd137;">4. Agent Execution 🦾</strong>
-              Agent executes the tool and receives the <em>Tool Response</em>.
+            <!-- Row 4: Arrows split -->
+            <div class="fragment fade-right" style="grid-column: 1; text-align: center;">
+              <div class="fc-edge">↙️</div>
+              <div style="color: #ffcc00;">Needs Tool (Name + Args)</div>
+            </div>
+            <div style="grid-column: 2;"></div>
+            <div class="fragment fade-left" style="grid-column: 3; text-align: center;">
+              <div class="fc-edge">↘️</div>
+              <div style="color: #4cd137;">Sufficient Info</div>
             </div>
 
-            <div class="flow-step fragment fade-up" style="border-left: 4px solid #ff4d4d; background: rgba(255, 77, 77, 0.1);">
-              <strong style="color: #ff4d4d;">5. Feedback Loop 🔄</strong>
-              Agent sends System Prompt + User Query + <em>Tool Response</em> back to the LLM.
+            <!-- Row 5: Actions -->
+            <div class="fc-node fc-green fragment fade-up" style="grid-column: 1; position: relative;">
+              <strong>4. 🦾 Agent Exec Tool</strong>
+              <span style="color:#ddd">Run tool & get Response</span>
+              
+              <!-- Feedback Loop Arrow (pointing back up to LLM) -->
+              <div class="fragment fade-in" style="position: absolute; right: -120px; top: -60px; width: 100px; height: 100px; border-left: 2px dashed #ff4d4d; border-top: 2px dashed #ff4d4d; border-radius: 15px 0 0 0;">
+                 <div style="position: absolute; top: -15px; right: -10px; font-size: 1.5em;">▶️</div>
+                 <div style="position: absolute; left: 10px; top: 30px; color: #ff4d4d; font-weight: bold; line-height: 1.2;">5. Tool Resp<br>🔄 6. Loop</div>
+              </div>
             </div>
+            
+            <div style="grid-column: 2;"></div>
 
-            <div class="flow-step fragment fade-up" style="border: 2px dashed #ffcc00; background: transparent; text-align: center;">
-              <strong style="color: #ffcc00; display: inline;">6. Iteration 🔁:</strong> 
-              If the LLM needs another tool, repeat <em>Steps 3 to 5</em>.
+            <div class="fc-node fc-white fragment zoom-in" style="grid-column: 3; box-shadow: 0 0 25px rgba(255,255,255,0.4);">
+              <strong style="font-size: 1.2em; color: #fff;">7. ✅ Final Answer</strong>
+              <span style="color:#ddd">Respond back to User</span>
             </div>
-
-            <div class="flow-step fragment zoom-in" style="background: rgba(76, 209, 55, 0.2); text-align: center; border: 1px solid #4cd137;">
-              <strong style="color: #4cd137;">7. Final Answer ✅</strong>
-              If the LLM is satisfied with the responses, it synthesizes the final answer for the user!
-            </div>
-
           </div>
+
         </section>
       </section>
 
