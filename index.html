@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css">
-  <!-- Highlight.js for code syntax highlighting -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css">
   
   <style>
@@ -17,44 +16,13 @@
     .highlight-green { color: #4cd137; }
     .highlight-pink { color: #e84393; }
     .brain-icon, .agent-icon { font-size: 3em; margin: 10px 0; display: inline-block;}
-    .comparison-box {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 40px;
-    }
-    .box {
-      width: 45%;
-      padding: 30px 20px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
+    .comparison-box { display: flex; justify-content: space-around; margin-top: 40px; }
+    .box { width: 45%; padding: 30px 20px; border-radius: 15px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); }
     .box h3 { font-size: 1.2em; margin-bottom: 20px;}
     .box ul { font-size: 0.8em; margin: 0; padding-left: 20px;}
     .box li { margin-bottom: 10px; }
-
-    /* Flowchart Styles */
-    .flowchart {
-      display: grid;
-      grid-template-columns: 1fr 120px 1fr;
-      grid-template-rows: auto auto auto auto auto;
-      gap: 10px 20px;
-      align-items: center;
-      justify-items: center;
-      font-size: 0.55em;
-      margin-top: 30px;
-      width: 100%;
-    }
-    .fc-node {
-      padding: 20px 15px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid #555;
-      text-align: center;
-      width: 100%;
-      box-sizing: border-box;
-      line-height: 1.4;
-    }
+    .flowchart { display: grid; grid-template-columns: 1fr 120px 1fr; grid-template-rows: auto auto auto auto auto; gap: 10px 20px; align-items: center; justify-items: center; font-size: 0.55em; margin-top: 30px; width: 100%; }
+    .fc-node { padding: 20px 15px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 2px solid #555; text-align: center; width: 100%; box-sizing: border-box; line-height: 1.4; }
     .fc-node strong { display: block; font-size: 1.2em; margin-bottom: 5px; }
     .fc-blue { border-color: #4db8ff; box-shadow: 0 0 15px rgba(77, 184, 255, 0.2); }
     .fc-blue strong { color: #4db8ff; }
@@ -81,19 +49,11 @@
           <div class="comparison-box">
             <div class="box fragment fade-right">
               <h3 style="color: #4db8ff;">✅ What it CAN do</h3>
-              <ul>
-                <li>Answer your questions</li>
-                <li>Provide <strong>suggestions & steps</strong> to solve problems</li>
-                <li>Generate plans and methodologies</li>
-              </ul>
+              <ul><li>Answer your questions</li><li>Provide <strong>suggestions & steps</strong> to solve problems</li><li>Generate plans and methodologies</li></ul>
             </div>
             <div class="box fragment fade-left">
               <h3 style="color: #ff4d4d;">❌ Its Core Limitation</h3>
-              <ul>
-                <li>It's a "brain in a vat" with no hands</li>
-                <li>It can only <strong>"think"</strong> and <strong>"speak"</strong></li>
-                <li><strong>It CANNOT "execute"</strong> any specific actions for you!</li>
-              </ul>
+              <ul><li>It's a "brain in a vat" with no hands</li><li>It can only <strong>"think"</strong> and <strong>"speak"</strong></li><li><strong>It CANNOT "execute"</strong> any specific actions for you!</li></ul>
             </div>
           </div>
         </section>
@@ -115,9 +75,7 @@
             <div class="box fragment fade-up" style="width: 80%; padding: 20px;">
               <h3 style="color: #4db8ff; margin-bottom: 10px;">⚙️ Format, Control & Execute</h3>
               <ul style="text-align: left; display: inline-block; margin: 0;">
-                <li><strong>Understands</strong> the LLM's intent and output</li>
-                <li><strong>Standardizes & Controls</strong> the LLM's response</li>
-                <li><strong>Executes actions</strong> using external tools on behalf of the brain</li>
+                <li><strong>Understands</strong> the LLM's intent and output</li><li><strong>Standardizes & Controls</strong> the LLM's response</li><li><strong>Executes actions</strong> using external tools on behalf of the brain</li>
               </ul>
             </div>
           </div>
@@ -139,13 +97,7 @@
           <div class="fragment zoom-in" style="margin-top: 40px; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1);">
             <h3 style="font-size: 1.1em; margin-bottom: 15px;">The Ultimate Synergy</h3>
             <div style="font-size: 2em; display: flex; justify-content: center; align-items: center; gap: 15px;">
-              <span class="fragment fade-right">🧠<br><span style="font-size: 0.3em; color:#bbb;">Brain</span></span>
-              <span class="fragment fade-in">➕</span>
-              <span class="fragment fade-up">🦾<br><span style="font-size: 0.3em; color:#bbb;">Hands</span></span>
-              <span class="fragment fade-in">➕</span>
-              <span class="fragment fade-left">🛠️<br><span style="font-size: 0.3em; color:#bbb;">Tools</span></span>
-              <span class="fragment fade-in">🟰</span>
-              <span class="fragment grow" style="color: #4cd137;">🚀<br><span style="font-size: 0.3em; color:#fff;">Action!</span></span>
+              <span class="fragment fade-right">🧠<br><span style="font-size: 0.3em; color:#bbb;">Brain</span></span><span class="fragment fade-in">➕</span><span class="fragment fade-up">🦾<br><span style="font-size: 0.3em; color:#bbb;">Hands</span></span><span class="fragment fade-in">➕</span><span class="fragment fade-left">🛠️<br><span style="font-size: 0.3em; color:#bbb;">Tools</span></span><span class="fragment fade-in">🟰</span><span class="fragment grow" style="color: #4cd137;">🚀<br><span style="font-size: 0.3em; color:#fff;">Action!</span></span>
             </div>
           </div>
         </section>
@@ -156,26 +108,14 @@
         <section data-transition="slide">
           <h2 style="font-size: 1.4em;">Agent Internal <span class="highlight-blue">Logic Flow</span> 🔄</h2>
           <div class="flowchart">
-            <div class="fc-node fc-blue fragment fade-down" style="grid-column: 1;">
-              <strong>1. System Prompt 📝</strong>
-            </div>
+            <div class="fc-node fc-blue fragment fade-down" style="grid-column: 1;"><strong>1. System Prompt 📝</strong></div>
             <div class="fc-edge fragment fade-down" style="grid-column: 2;">➕</div>
-            <div class="fc-node fc-white fragment fade-down" style="grid-column: 3;">
-              <strong>User Query 🗣️</strong>
-            </div>
-            <div class="fc-edge fragment fade-down" style="grid-column: 1 / span 3; text-align: center;">
-              ⬇️ <br><span style="font-size: 0.3em; color: #ccc;">2. Combine & Send</span>
-            </div>
-            <div class="fc-node fc-yellow fragment zoom-in" style="grid-column: 1 / span 3; width: 60%; padding: 25px;">
-              <strong style="font-size: 1.4em;">3. 🧠 LLM Decision</strong>
-            </div>
-            <div class="fragment fade-right" style="grid-column: 1; text-align: center;">
-              <div class="fc-edge">↙️</div><div style="color: #ffcc00;">Needs Tool</div>
-            </div>
+            <div class="fc-node fc-white fragment fade-down" style="grid-column: 3;"><strong>User Query 🗣️</strong></div>
+            <div class="fc-edge fragment fade-down" style="grid-column: 1 / span 3; text-align: center;">⬇️ <br><span style="font-size: 0.3em; color: #ccc;">2. Combine & Send</span></div>
+            <div class="fc-node fc-yellow fragment zoom-in" style="grid-column: 1 / span 3; width: 60%; padding: 25px;"><strong style="font-size: 1.4em;">3. 🧠 LLM Decision</strong></div>
+            <div class="fragment fade-right" style="grid-column: 1; text-align: center;"><div class="fc-edge">↙️</div><div style="color: #ffcc00;">Needs Tool</div></div>
             <div style="grid-column: 2;"></div>
-            <div class="fragment fade-left" style="grid-column: 3; text-align: center;">
-              <div class="fc-edge">↘️</div><div style="color: #4cd137;">Sufficient Info</div>
-            </div>
+            <div class="fragment fade-left" style="grid-column: 3; text-align: center;"><div class="fc-edge">↘️</div><div style="color: #4cd137;">Sufficient Info</div></div>
             <div class="fc-node fc-green fragment fade-up" style="grid-column: 1; position: relative;">
               <strong>4. 🦾 Agent Exec Tool</strong>
               <div class="fragment fade-in" style="position: absolute; right: -120px; top: -60px; width: 100px; height: 100px; border-left: 2px dashed #ff4d4d; border-top: 2px dashed #ff4d4d; border-radius: 15px 0 0 0;">
@@ -184,9 +124,7 @@
               </div>
             </div>
             <div style="grid-column: 2;"></div>
-            <div class="fc-node fc-white fragment zoom-in" style="grid-column: 3; box-shadow: 0 0 25px rgba(255,255,255,0.4);">
-              <strong style="font-size: 1.2em; color: #fff;">7. ✅ Final Answer</strong>
-            </div>
+            <div class="fc-node fc-white fragment zoom-in" style="grid-column: 3; box-shadow: 0 0 25px rgba(255,255,255,0.4);"><strong style="font-size: 1.2em; color: #fff;">7. ✅ Final Answer</strong></div>
           </div>
         </section>
       </section>
@@ -196,9 +134,7 @@
         <section data-transition="slide">
           <h2 style="font-size: 1.5em;">What is a <span class="highlight-pink">ReAct</span> Agent?</h2>
           <div class="fragment fade-up">
-            <p style="font-size: 1.1em; letter-spacing: 2px;">
-              <strong>ReAct</strong> = <strong class="highlight-yellow">Re</strong>asoning + <strong class="highlight-green">Act</strong>ing
-            </p>
+            <p style="font-size: 1.1em; letter-spacing: 2px;"><strong>ReAct</strong> = <strong class="highlight-yellow">Re</strong>asoning + <strong class="highlight-green">Act</strong>ing</p>
           </div>
           <div style="position: relative; height: 380px; width: 100%; margin-top: 40px; font-size: 0.6em;">
             <div class="fc-node fc-yellow fragment fade-down" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 300px; z-index: 2; padding: 15px;">
@@ -224,42 +160,24 @@
         </section>
       </section>
 
-      <!-- Page 6: Code Walkthrough -->
+      <!-- Page 6 -->
       <section>
         <section data-transition="convex">
           <h2 style="font-size: 1.4em;">Building a <span class="highlight-blue">SqlAgent</span> 💻</h2>
           <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-top: 15px;">
-            
-            <!-- Left: Legend / Steps -->
             <div style="width: 38%; font-size: 0.55em; text-align: left;">
               <ul style="list-style-type: none; padding: 0; margin: 0;">
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(77, 184, 255, 0.1); border-left: 4px solid #4db8ff; border-radius: 4px;">
-                  <strong style="color:#4db8ff; font-size:1.1em;">1. Build Tool</strong><br>Python func <code>execute_sql(sql)</code> returns DB data.
-                </li>
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 204, 0, 0.1); border-left: 4px solid #ffcc00; border-radius: 4px;">
-                  <strong style="color:#ffcc00; font-size:1.1em;">2. System Prompt (JSON)</strong><br>Instruct LLM to output specific JSON if tools are needed.
-                </li>
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-left: 4px solid #fff; border-radius: 4px;">
-                  <strong style="color:#fff; font-size:1.1em;">3. Call LLM</strong><br>Send prompt + user query in a loop.
-                </li>
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 77, 77, 0.1); border-left: 4px solid #ff4d4d; border-radius: 4px;">
-                  <strong style="color:#ff4d4d; font-size:1.1em;">4. Check Intent (Parse JSON)</strong><br>Parse JSON to check if <code>tool</code> key exists.
-                </li>
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(76, 209, 55, 0.1); border-left: 4px solid #4cd137; border-radius: 4px;">
-                  <strong style="color:#4cd137; font-size:1.1em;">5. Execute & Loop</strong><br>Run tool, append result, loop.
-                </li>
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(189, 195, 199, 0.1); border-left: 4px solid #bdc3c7; border-radius: 4px;">
-                  <strong style="color:#bdc3c7; font-size:1.1em;">6. Final Answer</strong><br>If not JSON or no tool -> exit loop.
-                </li>
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(77, 184, 255, 0.1); border-left: 4px solid #4db8ff; border-radius: 4px;"><strong style="color:#4db8ff; font-size:1.1em;">1. Build Tool</strong><br>Python func <code>execute_sql(sql)</code> returns DB data.</li>
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 204, 0, 0.1); border-left: 4px solid #ffcc00; border-radius: 4px;"><strong style="color:#ffcc00; font-size:1.1em;">2. System Prompt (JSON)</strong><br>Instruct LLM to output specific JSON if tools are needed.</li>
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-left: 4px solid #fff; border-radius: 4px;"><strong style="color:#fff; font-size:1.1em;">3. Call LLM</strong><br>Send prompt + user query in a loop.</li>
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 77, 77, 0.1); border-left: 4px solid #ff4d4d; border-radius: 4px;"><strong style="color:#ff4d4d; font-size:1.1em;">4. Check Intent (Parse JSON)</strong><br>Parse JSON to check if <code>tool</code> key exists.</li>
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(76, 209, 55, 0.1); border-left: 4px solid #4cd137; border-radius: 4px;"><strong style="color:#4cd137; font-size:1.1em;">5. Execute & Loop</strong><br>Run tool, append result, loop.</li>
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(189, 195, 199, 0.1); border-left: 4px solid #bdc3c7; border-radius: 4px;"><strong style="color:#bdc3c7; font-size:1.1em;">6. Final Answer</strong><br>If not JSON or no tool -> exit loop.</li>
               </ul>
             </div>
-
-            <!-- Right: Code with Line Highlights -->
             <div style="width: 60%;">
               <pre style="margin: 0; box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 8px;"><code class="language-python" data-line-numbers="6-7|10-14|18-20|23-25,34-35|27-28|31-33|37-38" style="max-height: 550px; font-size: 0.72em; line-height: 1.35; border-radius: 8px;">import json
-
 class SqlAgent:
-
     # 1. Build a Tool
     def execute_sql(self, sql_string: str):
         return db.query(sql_string)
@@ -281,7 +199,6 @@ class SqlAgent:
             try:
                 action = json.loads(res_text)
                 if "tool" in action and "args" in action:
-                    
                     # 4. Intent Yes -> Execute Tool
                     sql = action["args"]["sql_string"]
                     tool_data = self.execute_sql(sql)
@@ -297,7 +214,91 @@ class SqlAgent:
             return res_text
 </code></pre>
             </div>
+          </div>
+        </section>
+      </section>
 
+      <!-- Page 7: MCP vs Local Tool -->
+      <section>
+        <!-- 7.1: Concept Comparison -->
+        <section data-transition="slide">
+          <h2 style="font-size: 1.4em;">What is <span class="highlight-pink">MCP</span>? 🔌</h2>
+          <p style="font-size: 0.8em; color: #ccc;">(Model Context Protocol: Open Standard for Tools)</p>
+          
+          <div style="display: flex; justify-content: space-between; margin-top: 30px;">
+            <!-- Local Tool -->
+            <div class="box fragment fade-right" style="width: 45%;">
+              <h3 style="color: #ff4d4d; font-size: 1.1em;">🧱 Local Function Tool</h3>
+              <div style="text-align: center; margin: 15px 0; font-size: 1.5em;">
+                🤖 <span style="color: #888; font-size: 0.6em; vertical-align: middle;">-- calls --&gt;</span> ⚙️
+              </div>
+              <ul style="font-size: 0.7em;">
+                <li><strong>Hardcoded</strong> in the Agent's codebase</li>
+                <li>Bound to the <strong>same language</strong> (e.g., Python agent -> Python tool)</li>
+                <li>Adding new tools requires code changes</li>
+              </ul>
+            </div>
+
+            <!-- MCP Server -->
+            <div class="box fragment fade-left" style="width: 45%;">
+              <h3 style="color: #4cd137; font-size: 1.1em;">🌐 MCP Server & Tool</h3>
+              <div style="text-align: center; margin: 15px 0; font-size: 1.5em;">
+                🤖 <span style="color: #4cd137; font-size: 0.6em; vertical-align: middle;">&lt;-- stdio/SSE --&gt;</span> 📦
+              </div>
+              <ul style="font-size: 0.7em;">
+                <li>Runs as a <strong>standalone process</strong> (Server)</li>
+                <li><strong>Language agnostic</strong> (Python agent can call TS tool)</li>
+                <li><strong>Plug & Play:</strong> Agent dynamically discovers available tools!</li>
+              </ul>
+            </div>
+          </div>
+          
+          <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">
+            (Press ↓ to see the Code Comparison)
+          </p>
+        </section>
+
+        <!-- 7.2: Code Comparison -->
+        <section data-transition="convex">
+          <h2 style="font-size: 1.3em;">Code Comparison: <span style="color:#ff4d4d">Local</span> vs <span style="color:#4cd137">MCP</span></h2>
+          
+          <div style="display: flex; justify-content: space-between; align-items: stretch; margin-top: 20px;">
+            
+            <!-- Local Code -->
+            <div class="fragment fade-right" style="width: 48%; text-align: left;">
+              <h4 style="color: #ff4d4d; font-size: 0.85em; margin-bottom: 10px;">🧱 Local Tool (Hardcoded)</h4>
+              <pre style="margin: 0; box-shadow: 0 0 15px rgba(255,77,77,0.2); border-radius: 8px;"><code class="language-python" data-line-numbers="1-3|6-8" style="font-size: 0.65em; line-height: 1.3;"># 1. Define function directly in Python
+def fetch_weather(city: str):
+    return weather_api.get(city)
+
+
+# 2. Hardcode the execution routing
+if tool_name == "fetch_weather":
+    result = fetch_weather(args["city"])
+</code></pre>
+            </div>
+
+            <!-- MCP Code -->
+            <div class="fragment fade-left" style="width: 48%; text-align: left;">
+              <h4 style="color: #4cd137; font-size: 0.85em; margin-bottom: 10px;">🌐 MCP Tool (Dynamic)</h4>
+              <pre style="margin: 0; box-shadow: 0 0 15px rgba(76,209,55,0.2); border-radius: 8px;"><code class="language-python" data-line-numbers="1-2|4-6|8-10" style="font-size: 0.65em; line-height: 1.3;"># 1. Connect to standalone Server (e.g. Node.js)
+client = MCPClient(cmd="npx", args=["-y", "weather-mcp"])
+
+# 2. Auto-discover tools dynamically!
+# No need to rewrite system prompts manually
+tools = await client.list_tools() 
+
+# 3. Call tool via standard protocol (JSON-RPC)
+result = await client.call_tool(
+    tool_name, tool_args
+)
+</code></pre>
+            </div>
+          </div>
+          
+          <div class="fragment fade-up" style="margin-top: 30px; padding: 15px; background: rgba(76, 209, 55, 0.1); border-left: 4px solid #4cd137; font-size: 0.6em; text-align: left; line-height: 1.5;">
+            <strong style="color: #4cd137; font-size: 1.2em;">Why it's a Game Changer 🚀:</strong><br>
+            Instead of writing/importing every tool yourself, you just start a community MCP Server (like GitHub, Slack, or File System MCP) and connect your Agent to it. The Agent <strong>automatically discovers</strong> the tools and gains superpowers instantly!
           </div>
         </section>
       </section>
@@ -306,7 +307,6 @@ class SqlAgent:
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
-  <!-- Highlight.js plugin script -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.min.js"></script>
   <script>
     Reveal.initialize({
@@ -315,7 +315,7 @@ class SqlAgent:
       center: true,
       hash: true,
       transition: 'slide',
-      plugins: [ RevealHighlight ] // Activate syntax highlighting & line animations
+      plugins: [ RevealHighlight ]
     });
   </script>
 </body>
