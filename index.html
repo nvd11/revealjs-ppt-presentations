@@ -237,26 +237,28 @@
                   <strong style="color:#4db8ff; font-size:1.1em;">1. Build Tool</strong><br>Python func <code>execute_sql(sql)</code> returns DB data.
                 </li>
                 <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 204, 0, 0.1); border-left: 4px solid #ffcc00; border-radius: 4px;">
-                  <strong style="color:#ffcc00; font-size:1.1em;">2. System Prompt</strong><br>Instruct LLM about the tool and output format.
+                  <strong style="color:#ffcc00; font-size:1.1em;">2. System Prompt (JSON)</strong><br>Instruct LLM to output specific JSON if tools are needed.
                 </li>
                 <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 255, 255, 0.1); border-left: 4px solid #fff; border-radius: 4px;">
                   <strong style="color:#fff; font-size:1.1em;">3. Call LLM</strong><br>Send prompt + user query in a loop.
                 </li>
                 <li style="margin-bottom: 12px; padding: 10px; background: rgba(255, 77, 77, 0.1); border-left: 4px solid #ff4d4d; border-radius: 4px;">
-                  <strong style="color:#ff4d4d; font-size:1.1em;">4 & 6. Check Intent</strong><br>If NO tool needed, break loop and return answer.
+                  <strong style="color:#ff4d4d; font-size:1.1em;">4. Check Intent (Parse JSON)</strong><br>Parse JSON to check if <code>tool</code> key exists.
                 </li>
                 <li style="margin-bottom: 12px; padding: 10px; background: rgba(76, 209, 55, 0.1); border-left: 4px solid #4cd137; border-radius: 4px;">
-                  <strong style="color:#4cd137; font-size:1.1em;">4. Execute Tool</strong><br>If YES, parse arguments and run Step 1 function.
+                  <strong style="color:#4cd137; font-size:1.1em;">5. Execute & Loop</strong><br>Run tool, append result, loop.
                 </li>
-                <li style="margin-bottom: 12px; padding: 10px; background: rgba(232, 67, 147, 0.1); border-left: 4px solid #e84393; border-radius: 4px;">
-                  <strong style="color:#e84393; font-size:1.1em;">5. Append & Loop</strong><br>Add tool response to history, LLM thinks again.
+                <li style="margin-bottom: 12px; padding: 10px; background: rgba(189, 195, 199, 0.1); border-left: 4px solid #bdc3c7; border-radius: 4px;">
+                  <strong style="color:#bdc3c7; font-size:1.1em;">6. Final Answer</strong><br>If not JSON or no tool -> exit loop.
                 </li>
               </ul>
             </div>
 
             <!-- Right: Code with Line Highlights -->
             <div style="width: 60%;">
-              <pre style="margin: 0; box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 8px;"><code class="language-python" data-line-numbers="3-5|7-11|13-16|18-20|22-24|26-28" style="max-height: 550px; font-size: 0.85em; line-height: 1.35; border-radius: 8px;">class SqlAgent:
+              <pre style="margin: 0; box-shadow: 0 0 20px rgba(0,0,0,0.5); border-radius: 8px;"><code class="language-python" data-line-numbers="6-7|10-14|18-20|23-25,34-35|27-28|31-33|37-38" style="max-height: 550px; font-size: 0.72em; line-height: 1.35; border-radius: 8px;">import json
+
+class SqlAgent:
 
     # 1. Build a Tool
     def execute_sql(self, sql_string: str):
@@ -264,27 +266,35 @@
 
     # 2. System Prompt
     sys_prompt = """You are a SQL Agent. 
-    Tool available: execute_sql(sql_string).
-    Output tool_call if DB data is needed."""
+    Tool: execute_sql(sql_string).
+    To use a tool, you MUST output JSON: 
+    {"tool": "execute_sql", "args": {"sql_string": "SELECT..."}}
+    Otherwise, output final answer in plain text."""
 
     def run(self, user_query: str):
         messages = [self.sys_prompt, user_query]
-        
         while True:
             # 3. Call LLM
-            llm_res = llm.chat(messages)
+            res_text = llm.chat(messages)
 
-            # 4 & 6. Check Intent (If No -> Exit)
-            if not llm_res.has_tool_call:
-                return llm_res.final_text
+            # 4 & 6. Parse JSON to Check Intent
+            try:
+                action = json.loads(res_text)
+                if "tool" in action and "args" in action:
+                    
+                    # 4. Intent Yes -> Execute Tool
+                    sql = action["args"]["sql_string"]
+                    tool_data = self.execute_sql(sql)
 
-            # 4. Intent Yes -> Execute Tool
-            sql = llm_res.tool_args['sql_string']
-            tool_data = self.execute_sql(sql)
+                    # 5. Append Response & Loop
+                    messages.append(res_text)
+                    messages.append(f"Observation: {tool_data}")
+                    continue
+            except json.JSONDecodeError:
+                pass
 
-            # 5. Append Response & Loop
-            messages.append(llm_res.raw)
-            messages.append(f"Result: {tool_data}")
+            # No JSON / No Tool -> Return final answer
+            return res_text
 </code></pre>
             </div>
 
