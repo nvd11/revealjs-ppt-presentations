@@ -10,7 +10,8 @@
   <style>
     .highlight-blue { color: #4db8ff; }
     .highlight-red { color: #ff4d4d; }
-    .brain-icon { font-size: 3em; margin: 10px 0; display: inline-block;}
+    .highlight-yellow { color: #ffcc00; }
+    .brain-icon, .agent-icon { font-size: 3em; margin: 10px 0; display: inline-block;}
     .comparison-box {
       display: flex;
       justify-content: space-around;
@@ -36,15 +37,11 @@
       <section>
         <section data-transition="zoom">
           <h2>What is an <span class="highlight-blue">LLM</span>?</h2>
-          
-          <!-- Brain Metaphor -->
           <div class="fragment fade-up">
             <span class="brain-icon">🧠</span>
             <p>An LLM is like a <strong>"Digital Brain"</strong> with massive knowledge</p>
           </div>
-          
           <div class="comparison-box">
-            <!-- Left: What it can do -->
             <div class="box fragment fade-right">
               <h3 style="color: #4db8ff;">✅ What it CAN do</h3>
               <ul>
@@ -53,8 +50,6 @@
                 <li>Generate plans and methodologies</li>
               </ul>
             </div>
-            
-            <!-- Right: Core Limitations -->
             <div class="box fragment fade-left">
               <h3 style="color: #ff4d4d;">❌ Its Core Limitation</h3>
               <ul>
@@ -64,11 +59,40 @@
               </ul>
             </div>
           </div>
-          
-          <!-- Transition -->
           <p class="fragment fade-up" style="margin-top: 30px; font-style: italic; color: #888; font-size: 0.7em;">
-            (This is exactly why we need an Agent... Press ↓ to continue)
+            (This is exactly why we need an Agent... Press ↓ or → to continue)
           </p>
+        </section>
+      </section>
+
+      <!-- Page 2: What is an Agent -->
+      <section>
+        <section data-transition="slide">
+          <h2>What is an <span class="highlight-yellow">Agent</span>?</h2>
+          
+          <!-- Metaphor: Body and Hands -->
+          <div class="fragment fade-up">
+            <span class="agent-icon">🦾 🧍‍♂️</span>
+            <p>An Agent is the <strong>"Body and Hands"</strong></p>
+          </div>
+          
+          <div class="comparison-box" style="flex-direction: column; align-items: center; margin-top: 20px;">
+            <!-- Dependency on LLM -->
+            <div class="box fragment fade-up" style="width: 80%; margin-bottom: 20px; padding: 20px;">
+              <h3 style="color: #ffcc00; margin-bottom: 10px;">🧠 + 🦾 Inseparable from the LLM</h3>
+              <p style="font-size: 0.8em; margin: 0;">A body cannot act without a brain. The Agent <strong>relies entirely on the LLM</strong> for reasoning, planning, and decision-making.</p>
+            </div>
+            
+            <!-- Control & Standardization -->
+            <div class="box fragment fade-up" style="width: 80%; padding: 20px;">
+              <h3 style="color: #4db8ff; margin-bottom: 10px;">⚙️ Format, Control & Execute</h3>
+              <ul style="text-align: left; display: inline-block; margin: 0;">
+                <li><strong>Understands</strong> the LLM's intent and output</li>
+                <li><strong>Standardizes & Controls</strong> the LLM's response (e.g., enforcing JSON formatting)</li>
+                <li><strong>Executes actions</strong> using external tools on behalf of the brain</li>
+              </ul>
+            </div>
+          </div>
         </section>
       </section>
 
