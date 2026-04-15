@@ -220,11 +220,9 @@ class SqlAgent:
 
       <!-- Page 7 -->
       <section>
-        <!-- 7.1: Concept Comparison -->
         <section data-transition="slide">
           <h2 style="font-size: 1.4em;">What is <span class="highlight-pink">MCP</span>? 🔌</h2>
           <p style="font-size: 0.8em; color: #ccc;">(Model Context Protocol: Open Standard for Tools)</p>
-          
           <div style="display: flex; justify-content: space-between; margin-top: 30px;">
             <div class="box fragment fade-right" style="width: 45%;">
               <h3 style="color: #ff4d4d; font-size: 1.1em;">🧱 Local Function Tool</h3>
@@ -247,8 +245,6 @@ class SqlAgent:
           </div>
           <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">(Press ↓ to see the Code Comparison)</p>
         </section>
-
-        <!-- 7.2: Code Comparison -->
         <section data-transition="convex">
           <h2 style="font-size: 1.3em;">Code Comparison: <span style="color:#ff4d4d">Local</span> vs <span style="color:#4cd137">MCP</span></h2>
           <div style="display: flex; justify-content: space-between; align-items: stretch; margin-top: 20px;">
@@ -285,13 +281,10 @@ result = await client.call_tool(
         </section>
       </section>
 
-      <!-- Page 8: Frameworks & Function Calling -->
+      <!-- Page 8 -->
       <section>
-        
-        <!-- 8.1: Agent Frameworks -->
         <section data-transition="slide">
           <h2 style="font-size: 1.4em;">Agent Frameworks: <span class="highlight-blue">LangChain</span> & <span class="highlight-yellow">LangGraph</span></h2>
-          
           <div style="display: flex; justify-content: space-between; margin-top: 30px;">
             <div class="box fragment fade-right" style="width: 48%;">
               <h3 style="color: #4db8ff;">🦜🔗 LangChain</h3>
@@ -301,7 +294,6 @@ result = await client.call_tool(
                 <li>Great for linear chains and simple ReAct agents</li>
               </ul>
             </div>
-            
             <div class="box fragment fade-left" style="width: 48%;">
               <h3 style="color: #ffcc00;">🕸️ LangGraph</h3>
               <ul style="font-size: 0.75em; text-align: left;">
@@ -311,22 +303,14 @@ result = await client.call_tool(
               </ul>
             </div>
           </div>
-          
-          <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">
-            (Press ↓ to see "Function Calling" vs "Non-Function Calling")
-          </p>
+          <p class="fragment fade-up" style="margin-top: 20px; font-style: italic; color: #888; font-size: 0.6em;">(Press ↓ to see "Function Calling" vs "Non-Function Calling")</p>
         </section>
-
-        <!-- 8.2: Function Calling -->
         <section data-transition="convex">
           <h2 style="font-size: 1.3em;">What is <span class="highlight-pink">Function Calling</span>? ☎️</h2>
           <p class="fragment fade-up" style="font-size: 0.75em; margin-bottom: 20px; color: #ddd;">
             It's a feature where the model is <strong>fine-tuned</strong> to natively understand tool schemas and reliably output structured arguments, rather than just generating plain text.
           </p>
-          
           <div style="display: flex; justify-content: space-between; align-items: stretch;">
-            
-            <!-- Without Tool Calling -->
             <div class="box fragment fade-right" style="width: 48%; padding: 15px;">
               <h4 style="color: #ff4d4d; font-size: 0.9em; margin-bottom: 10px;">❌ Non-Tool Calling Model</h4>
               <ul style="font-size: 0.6em; text-align: left; margin-bottom: 15px;">
@@ -342,8 +326,6 @@ res = llm.chat(prompt)
 action = json.loads(res.text) 
 </code></pre>
             </div>
-
-            <!-- With Tool Calling -->
             <div class="box fragment fade-left" style="width: 48%; padding: 15px;">
               <h4 style="color: #4cd137; font-size: 0.9em; margin-bottom: 10px;">✅ Tool Calling Model</h4>
               <ul style="font-size: 0.6em; text-align: left; margin-bottom: 15px;">
@@ -359,10 +341,50 @@ if res.tool_calls:
     call = res.tool_calls[0] 
 </code></pre>
             </div>
-            
           </div>
         </section>
-        
+      </section>
+
+      <!-- Page 9: Conclusion -->
+      <section>
+        <section data-transition="zoom">
+          <h2 style="font-size: 1.6em;">Conclusion: <span class="highlight-yellow">What is an Agent?</span> 🌟</h2>
+          <p class="fragment fade-up" style="font-size: 0.9em; margin-bottom: 40px; color: #ccc;">
+            In essence, an Agent upgrades a standard LLM in <strong>two fundamental ways</strong>:
+          </p>
+          
+          <div style="display: flex; justify-content: center; gap: 30px;">
+            
+            <!-- Point 1: Action -->
+            <div class="box fragment fade-right" style="width: 45%; padding: 40px 20px; border-top: 5px solid #4cd137;">
+              <div style="font-size: 3em; margin-bottom: 15px;">🦾</div>
+              <h3 style="color: #4cd137;">1. The Power to ACT</h3>
+              <p style="font-size: 0.75em; text-align: left; color: #ddd; line-height: 1.5;">
+                It brings <strong>Execution Capability</strong>. It breaks the LLM out of its "brain in a vat" limitation, allowing it to execute tools, interact with APIs, and change the real world.
+              </p>
+            </div>
+            
+            <!-- Point 2: Memory -->
+            <div class="box fragment fade-left" style="width: 45%; padding: 40px 20px; border-top: 5px solid #4db8ff;">
+              <div style="font-size: 3em; margin-bottom: 15px;">🧠➕💾</div>
+              <h3 style="color: #4db8ff;">2. The Power of MEMORY</h3>
+              <p style="font-size: 0.75em; text-align: left; color: #ddd; line-height: 1.5;">
+                It brings <strong>State Management</strong>. By maintaining the history of actions and observations, making multiple iterative LLM calls becomes seamless and context-aware.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- Final Formula -->
+          <div class="fragment zoom-in" style="margin-top: 50px; font-size: 1.4em; font-weight: bold; color: #ffcc00; text-shadow: 0 0 20px rgba(255, 204, 0, 0.5);">
+            LLM + Tools + Memory = <span style="font-size: 1.5em; vertical-align: middle;">🚀 AGENT</span>
+          </div>
+          
+          <!-- Thank you -->
+          <div class="fragment fade-in" style="margin-top: 40px; font-size: 0.8em; color: #888; font-style: italic;">
+            Thank you! / Q&A 
+          </div>
+        </section>
       </section>
 
     </div>
