@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ReAct Agent Sharing</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/night.min.css">
+  <style>
+    .highlight-blue { color: #4db8ff; }
+    .highlight-red { color: #ff4d4d; }
+    .brain-icon { font-size: 3em; margin: 10px 0; display: inline-block;}
+    .comparison-box {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 40px;
+    }
+    .box {
+      width: 45%;
+      padding: 30px 20px;
+      border-radius: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .box h3 { font-size: 1.2em; margin-bottom: 20px;}
+    .box ul { font-size: 0.8em; margin: 0; padding-left: 20px;}
+    .box li { margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+      
+      <!-- Page 1: What is an LLM -->
+      <section>
+        <section data-transition="zoom">
+          <h2>What is an <span class="highlight-blue">LLM</span>?</h2>
+          
+          <!-- Brain Metaphor -->
+          <div class="fragment fade-up">
+            <span class="brain-icon">🧠</span>
+            <p>An LLM is like a <strong>"Digital Brain"</strong> with massive knowledge</p>
+          </div>
+          
+          <div class="comparison-box">
+            <!-- Left: What it can do -->
+            <div class="box fragment fade-right">
+              <h3 style="color: #4db8ff;">✅ What it CAN do</h3>
+              <ul>
+                <li>Answer your questions</li>
+                <li>Provide <strong>suggestions & steps</strong> to solve problems</li>
+                <li>Generate plans and methodologies</li>
+              </ul>
+            </div>
+            
+            <!-- Right: Core Limitations -->
+            <div class="box fragment fade-left">
+              <h3 style="color: #ff4d4d;">❌ Its Core Limitation</h3>
+              <ul>
+                <li>It's a "brain in a vat" with no hands</li>
+                <li>It can only <strong>"think"</strong> and <strong>"speak"</strong></li>
+                <li><strong>It CANNOT "execute"</strong> any specific actions for you!</li>
+              </ul>
+            </div>
+          </div>
+          
+          <!-- Transition -->
+          <p class="fragment fade-up" style="margin-top: 30px; font-style: italic; color: #888; font-size: 0.7em;">
+            (This is exactly why we need an Agent... Press ↓ to continue)
+          </p>
+        </section>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+      transition: 'slide'
+    });
+  </script>
+</body>
+</html>
