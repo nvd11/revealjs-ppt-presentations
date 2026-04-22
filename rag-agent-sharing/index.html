@@ -138,29 +138,32 @@ response = llm.invoke(final_prompt)
                  Slide 4: Deconstructing RAG (Outline Slide 3)
                  ============================== -->
             <section>
-                <h3 style="font-size: 1.2em;">Deconstructing RAG: Core Components</h3>
+                <h3 style="font-size: 1.1em;">Deconstructing RAG: Core Components</h3>
                 <hr style="border-color: #6272a4;">
                 
-                <!-- Part 1: Deconstruction -->
+                <!-- Part 1: Deconstruction of the Demo -->
                 <div class="fragment fade-up">
-                    <p style="font-size: 0.85em; margin-bottom: 10px;">The previous code demo essentially represents two core actions:</p>
-                    <ul style="font-size: 0.8em; line-height: 1.5;">
-                        <li><strong class="highlight-text">Retriever:</strong> Fetches the private context. <br><em>(Hardcoded in the demo, but dynamic in reality).</em></li>
-                        <li><strong class="highlight-text">Generator:</strong> Combines the fetched context with the user query and lets the LLM reason the answer.</li>
-                    </ul>
+                    <p style="font-size: 0.75em; margin-bottom: 5px;">Let's revisit our previous demo code. It can be distinctly split into two roles:</p>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.8em; line-height: 1.3;">
+# 🔍 Role 1: The Retriever (Hardcoded in the demo)
+# Goal: Fetch the relevant private context.
+system_prompt = "Context: Jacky has 4 children in total, and 2 of them are boys."
+
+# 🧠 Role 2: The Generator
+# Goal: Combine context + query, then let LLM reason the answer.
+final_prompt = f"{system_prompt}\nQuestion: {user_query}"
+response = llm.invoke(final_prompt)
+                    </code></pre>
                 </div>
 
                 <!-- Part 2: Enterprise Abstraction -->
-                <div class="fragment fade-up" style="margin-top: 20px;">
-                    <p style="font-size: 0.85em; margin-bottom: 10px; color: #50fa7b;"><strong>Enterprise Abstraction:</strong></p>
-                    <p style="font-size: 0.75em; margin-bottom: 15px; color: #f8f8f2;">
-                        In a production-grade RAG Agent architecture, these two components are highly abstracted and encapsulated to interface with massive Vector DBs and various LLM engines seamlessly.
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #50fa7b;"><strong>Enterprise Abstraction:</strong></p>
+                    <p style="font-size: 0.7em; margin-bottom: 10px; color: #f8f8f2;">
+                        In production, these two components are highly encapsulated to seamlessly interface with massive Vector DBs and various LLM engines.
                     </p>
-                </div>
-
-                <!-- Part 3: Abstracted Code Example -->
-                <div class="fragment fade-up">
-                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 15px; font-size: 0.85em; line-height: 1.3;">
+                    
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.8em; line-height: 1.3;">
 # 1. Instantiate the Retriever (connects to Enterprise Vector DB)
 retriever = VectorStoreRetriever(db_connection)
 
