@@ -480,6 +480,50 @@ result = await agent.ask(question="How to cook ribs?", topic_filters=["recipe"])
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 11: SDLC Potential & Pain Points
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.1em;">RAG Potential in our SDLC</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Point 1: Jira -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #8be9fd;"><strong>📊 1. Jira (Empowering BAs & Scrum Masters)</strong></p>
+                    <p style="font-size: 0.65em; line-height: 1.4; margin-bottom: 15px;">
+                        <em>Vision:</em> Vectorizing all Epics and Stories.<br>
+                        <em>Value:</em> Ask the Agent "Summarize the current Sprint progress" or "List blocked high-priority tasks." No more manual JQL or clunky dashboards.
+                    </p>
+                </div>
+
+                <!-- Point 2: Confluence -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #50fa7b;"><strong>📚 2. Confluence (Empowering Devs & Onboarding)</strong></p>
+                    <p style="font-size: 0.65em; line-height: 1.4; margin-bottom: 15px;">
+                        <em>Vision:</em> A centralized RAG pipeline for all team Wikis.<br>
+                        <em>Value:</em> Turbocharged onboarding! Devs facing errors can ask the Agent and instantly locate specific architecture docs or API specs. Goodbye, terrible Wiki search!
+                    </p>
+                </div>
+
+                <!-- Point 3: Change Requests -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #ff79c6;"><strong>🚨 3. Change Requests (Empowering Prod Support)</strong></p>
+                    <p style="font-size: 0.65em; line-height: 1.4; margin-bottom: 15px;">
+                        <em>Vision:</em> Ingesting all historical CRs and Incident Reports.<br>
+                        <em>Value:</em> The ultimate troubleshooting weapon. During an incident, ask "Which recent CR touched the payment module?" Drastically reduces MTTR and simplifies audit tracing.
+                    </p>
+                </div>
+
+                <!-- Pain Points & Call to Action -->
+                <div class="fragment fade-up highlight-block" style="margin-top: 10px; padding: 15px; border-left-color: #ff5555;">
+                    <h4 style="color: #ff5555; font-size: 0.85em; margin-bottom: 5px;">🚧 The Reality Check (We Need YOU!)</h4>
+                    <ul style="font-size: 0.65em; line-height: 1.4; margin-bottom: 0;">
+                        <li><strong>Lack of Contributors:</strong> This ecosystem has immense potential, but we need more developers to join and build these internal tools together.</li>
+                        <li><strong>Infrastructure Gap:</strong> We currently lack a powerful, private, on-premise <strong>Embedding Model</strong>. Without it, our foundational vector retrieval accuracy is severely bottlenecked.</li>
+                    </ul>
+                </div>
+            </section>
+
         </div>
     </div>
 
