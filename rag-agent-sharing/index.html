@@ -272,6 +272,52 @@ class OpenAIEmbedder(BaseEmbedder):
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 7: Chunking & Overlap
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.1em;">The Art of Chunking & Pre-processing</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Part 1: Why Chunking? -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #ff79c6;"><strong>Why do we need Chunking?</strong></p>
+                    <ul style="font-size: 0.7em; line-height: 1.4;">
+                        <li><strong>Noise & Token Limits:</strong> Passing a 100-page <em>"Employee Handbook"</em> PDF to answer <em>"How many paid leave days?"</em> causes severe LLM hallucinations (confusing sick leave/maternity leave) and blows up Token limits.</li>
+                        <li><strong>Traceability (Top-K):</strong> Enterprise RAG requires citations. e.g., <em>"Answer: 5 days. [Source: Handbook P12, Paragraph 3] (Relevance: 0.95)"</em>. We must break documents into fine-grained chunks to retrieve specific paragraphs.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 2: Strategies & Overlap -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #8be9fd;"><strong>Strategies & Overlap</strong></p>
+                    <ul style="font-size: 0.7em; line-height: 1.4;">
+                        <li><strong>Methods:</strong> By Character, by Token, or by Semantic structure (e.g., Markdown headers).</li>
+                        <li><strong>Overlap:</strong> Prevents a long sentence from being brutally sliced in half. We keep overlapping characters (e.g., <code>Size=500, Overlap=50</code>) to maintain semantic continuity between adjacent chunks.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 3: Pipeline Code -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #50fa7b;"><strong>The Ingestion Pipeline (OOP Approach)</strong></p>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.65em; line-height: 1.2;">
+# 1. Define the Splitter
+class RecursiveTextSplitter(BaseSplitter):
+    def __init__(self, chunk_size=500, overlap=50):
+        self.chunk_size = chunk_size
+        self.overlap = overlap
+
+# 2. Pipeline: Document -> Chunks -> Embeddings
+splitter = RecursiveTextSplitter(chunk_size=500, overlap=50)
+embedder = OpenAIEmbedder() # Reusing from the previous slide
+
+chunks = splitter.split_document(full_pdf_text)
+# Vectorize EACH chunk individually
+chunk_embeddings = [embedder.embed_text(chunk) for chunk in chunks] 
+                    </code></pre>
+                </div>
+            </section>
+
         </div>
     </div>
 
