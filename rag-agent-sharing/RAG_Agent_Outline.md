@@ -27,11 +27,27 @@
 
 - **引出下文**: 至于如何获得这个相关的上下文，后面的 Slide 会详细讲解。
 
-## 幻灯片 3: RAG 的核心链路 (Retrieval-Augmented Generation)
-- **Indexing (索引阶段)**: 文档解析 -> 切块 (Chunking) -> 向量化 (Embedding) -> 向量数据库。
-- **Retrieval (检索阶段)**: 用户 Query -> Query 向量化 -> 相似度计算 (Top-K 检索)。
-- **Generation (生成阶段)**: Prompt 组装 (Context + Query) -> LLM 生成回答。
-- *图示: RAG 经典三步曲流程图。*
+## 幻灯片 3: 解构 RAG - 核心组件 Retriever 与 Generator
+- **代码拆解 (回顾 Slide 2.5)**: *[动画步进 1: 出现拆解说明]*
+  - 可以将刚才 Demo 的代码分割为两部分核心动作：
+    1. **Retriever (检索器)**: 负责获取私有上下文 `Jacky 一共有 4 个孩子，其中 2 个是男孩` (虽然上一个 Demo 是 hardcode，但在真实场景中，这就是 Retriever 的角色)。
+    2. **Generator (生成器)**: 负责将检索到的上下文与用户 Query 结合，让 LLM 进行推理并生成答案。
+- **企业级抽象化**: *[动画步进 2: 出现抽象化说明]*
+  - Retriever 和 Generator 就是 RAG (Retrieval-Augmented Generation) 的两大灵魂组件。
+  - 在企业级 RAG Agent 的架构中，这两个组件会被高度抽象化、封装化，以对接庞大的向量数据库和多种大模型。
+- **抽象化代码示例**: *[动画步进 3: 渐显代码块]*
+  ```python
+  # 1. 实例化检索器 (连接到企业向量数据库)
+  retriever = VectorStoreRetriever(db_connection)
+  
+  # 2. 实例化生成器 (包含 LLM 引擎和 Prompt 策略)
+  generator = AnswerGenerator(llm_engine)
+  
+  # 3. 核心 RAG Pipeline
+  query = "请问 Jacky 有多少个女儿？"
+  context = retriever.retrieve(query)        # 检索阶段
+  answer = generator.generate(query, context) # 生成阶段
+  ```
 
 ## 幻灯片 4: 进阶检索技巧 (Advanced RAG)
 - **痛点**: 简单 Top-K 检索往往匹配不到核心意图。
