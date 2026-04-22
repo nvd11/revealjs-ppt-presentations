@@ -230,6 +230,48 @@ class DatabaseRetriever(BaseRetriever):
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 6: Vectorization & Embedding
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.1em;">Vectorization & Embedding: Semantic Matching</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Part 1: Pain Point -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #ff5555;"><strong>❌ The Limits of Text Search (e.g., SQL LIKE)</strong></p>
+                    <ul style="font-size: 0.75em; line-height: 1.4;">
+                        <li><strong>Query:</strong> <em>"Nutrition of an Apple"</em></li>
+                        <li><strong>Database has:</strong> <em>"Pear"</em> and <em>"Rice"</em>.</li>
+                        <li><strong>Result:</strong> Traditional searches fail because "Apple" doesn't share characters with "Pear". They cannot comprehend that Apple and Pear are semantically closer (fruits) than Rice.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 2: Vectorization Concept -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #50fa7b;"><strong>✅ Vectorization (High-Dimensional Space)</strong></p>
+                    <p style="font-size: 0.75em; line-height: 1.4;">
+                        Converts natural language into arrays of floats (e.g., 768 or 1536 dimensions). In this spatial coordinate system, <strong style="color: #ff79c6;">semantically similar words cluster together</strong>.
+                    </p>
+                    <!-- Placeholder for the graph -->
+                    <div style="background: #282a36; border: 1px dashed #6272a4; padding: 15px; text-align: center; border-radius: 8px;">
+                        <span style="font-size: 0.7em; color: #6272a4;">[ 🖼️ Insert 3D Scatter Plot here: 'Apple' and 'Pear' close together, 'Rice' far away ]</span>
+                    </div>
+                </div>
+
+                <!-- Part 3: Embedding Models & OOP -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.8em; margin-bottom: 5px; color: #8be9fd;"><strong>Embedding Models (The Encoders)</strong></p>
+                    <p style="font-size: 0.7em; line-height: 1.2;">Models like OpenAI `text-embedding-3` or `BGE-M3` do this magic.</p>
+                    <pre style="margin-top: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.65em; line-height: 1.2;">
+class OpenAIEmbedder(BaseEmbedder):
+    def embed_text(self, text: str) -> list[float]:
+        # Returns a vector like: [-0.012, 0.045, 0.111, ...]
+        return openai_client.embeddings.create(input=text, model="text-embedding-3-small").data[0].embedding
+                    </code></pre>
+                </div>
+            </section>
+
         </div>
     </div>
 
