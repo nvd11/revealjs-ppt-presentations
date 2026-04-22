@@ -88,6 +88,52 @@
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 3: Why RAG? (Slide 2.5 in outline)
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.2em;">Why RAG? The Limits of LLMs</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Part 1: Pain Point -->
+                <div class="fragment fade-up">
+                    <h4 style="color: #ff5555; font-size: 0.8em; margin-bottom: 5px;">❌ Pain Point: Missing "Private" Knowledge</h4>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 15px; font-size: 0.9em; line-height: 1.3;">
+# Querying a standard LLM without context
+user_query = "How many daughters does Jacky have?"
+response = llm.invoke(user_query)
+
+# 🤖 LLM Response: 
+# "I cannot answer this question. There is not enough context 
+# to determine which 'Jacky' you are referring to."
+                    </code></pre>
+                </div>
+
+                <!-- Part 2: Breakthrough -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <h4 style="color: #50fa7b; font-size: 0.8em; margin-bottom: 5px;">✅ The Breakthrough: Injecting Context (The Essence of RAG)</h4>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 15px; font-size: 0.9em; line-height: 1.3;">
+# 1. Provide the private knowledge as context
+system_prompt = "Context: Jacky has 4 children in total, and 2 of them are boys."
+
+# 2. Combine context with the query
+final_prompt = f"{system_prompt}\nQuestion: {user_query}"
+response = llm.invoke(final_prompt)
+
+# 🤖 LLM Response: 
+# "Jacky has 2 daughters."
+                    </code></pre>
+                </div>
+                
+                <!-- Transition to next slide -->
+                <div class="fragment fade-up highlight-block" style="margin-top: 15px; padding: 15px;">
+                    <p style="font-size: 0.8em; margin: 0; color: #f8f8f2;">
+                        🤔 <strong>The Real Challenge:</strong> In an enterprise with millions of documents, how does the system automatically fetch <em>EXACTLY</em> this "Jacky" sentence to act as context? <br>
+                        <span style="color: #8be9fd; font-style: italic;">➡️ Let's deconstruct the architecture...</span>
+                    </p>
+                </div>
+            </section>
+
         </div>
     </div>
 
