@@ -362,6 +362,61 @@ LIMIT 3;
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 9: Generator & Top-K Tuning
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.1em;">The Final Piece: Generator & Top-K Tuning</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Part 1: Generator Code & Prompt -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #ff79c6;"><strong>The Generator's Job: Prompt Assembly</strong></p>
+                    <p style="font-size: 0.65em; line-height: 1.4; margin-bottom: 5px;">It combines the User Query with the Retrieved Chunks to force the LLM into "open-book" mode.</p>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.6em; line-height: 1.2;">
+def generate_answer(user_query, retrieved_chunks):
+    # 1. Anti-Hallucination System Prompt
+    prompt = "You are a smart assistant. STRICTLY base your answer on the [References] below. Do not fabricate.\n\n"
+    
+    # 2. Inject Context with Traceability
+    for i, chunk in enumerate(retrieved_chunks):
+        prompt += f"[Reference {i+1}] (Score: {chunk.score}): {chunk.content}\n"
+    
+    prompt += f"\nUser Query: {user_query}"
+    
+    # 3. LLM Inference
+    return llm_client.chat(prompt)
+                    </code></pre>
+                </div>
+
+                <!-- Part 2: Output Example -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #8be9fd;"><strong>Perfect Sourced Output</strong></p>
+                    <div style="background: rgba(40, 42, 54, 0.8); border-left: 4px solid #8be9fd; padding: 10px; font-size: 0.65em; line-height: 1.4;">
+                        <strong>🤖 Answer:</strong> Simmer the pork ribs for 1.5 to 2 hours. Add salt only in the last 20 minutes to keep the meat tender.<br><br>
+                        <strong>📚 Citations:</strong><br>
+                        - <code>[Ref 1]</code> (Score: 0.92): <em>Chinese Recipes - Soups</em> P12 - Rib simmering duration...<br>
+                        - <code>[Ref 2]</code> (Score: 0.88): <em>Chinese Recipes - Seasoning</em> P5 - When to add salt...
+                    </div>
+                </div>
+
+                <!-- Part 3: Top-K Tuning -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #50fa7b;"><strong>The Top-K Dilemma (How many chunks to feed?)</strong></p>
+                    <ul style="font-size: 0.65em; line-height: 1.4;">
+                        <li><strong>K is too small (e.g., K=1):</strong> Low Recall. Missing crucial context leads to incomplete answers.</li>
+                        <li><strong>K is too large (e.g., K=20):</strong>
+                            <ol style="margin-top: 5px; margin-bottom: 5px;">
+                                <li>💸 <strong>Expensive & Slow:</strong> Massive token consumption and latency.</li>
+                                <li>🚫 <strong>Context Window Overflow:</strong> Crashing the LLM limits.</li>
+                                <li>😵 <strong>Lost in the Middle:</strong> Excessive noise causes the LLM to forget the original query or ignore the context.</li>
+                            </ol>
+                        </li>
+                        <li><em>Enterprise Best Practice:</em> Usually set K between <strong>3 and 5</strong>.</li>
+                    </ul>
+                </div>
+            </section>
+
         </div>
     </div>
 
