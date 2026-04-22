@@ -49,31 +49,49 @@
   answer = generator.generate(query, context) # 生成阶段
   ```
 
-## 幻灯片 4: 知识库构建与 Retriever 的“羁绊”
-- **核心观点**: *[动画步进 1: 抛出核心结论]*
-  - **知识库的形态，决定了 Retriever 的实现方式**。它们是一体两面的关系，怎么存数据，就得怎么写代码去取数据。
-- **形态 1: 文本文件 (Text File)** *[动画步进 2: 出现形态1及代码]*
-  - 如果我们最简单粗暴地将私有知识存为一个 `.txt` 文件，那么 Retriever 必须具备**读取本地/网络磁盘**的能力。
-  - **代码示例**:
+## 幻灯片 4: 知识库构建与 Retriever 的“羁绊” (OOP 视角)
+- **核心观点**: *[动画步进 1: 抛出核心结论与基类]*
+  - **知识库的形态，决定了 Retriever 的实现方式**。在企业级开发中，我们会定义一个统一的 `BaseRetriever` 抽象接口，而底层存数据的方式决定了我们要写什么样的子类去实现它。
+  - **定义抽象基类**:
     ```python
-    def file_retriever(query, file_path="knowledge.txt"):
-        # 读取本地磁盘文件内容作为上下文
-        with open(file_path, "r", encoding="utf-8") as f:
-            content = f.read()
-        return extract_relevant_info(query, content)
+    from abc import ABC, abstractmethod
+
+    class BaseRetriever(ABC):
+        @abstractmethod
+        def retrieve(self, query: str) -> str:
+            pass # 强制所有子类必须实现 retrieve 方法
     ```
-- **形态 2: 关系型数据库 (RDBMS)** *[动画步进 3: 出现形态2及代码]*
-  - 如果企业将规则、用户信息作为文本存在 MySQL 里，那么 Retriever 就必须具备**执行 SQL 查询**的能力。
-  - **代码示例**:
+- **形态 1: 文本文件 (Text File)** *[动画步进 2: 出现形态1及子类实现]*
+  - 如果私有知识是以纯文本文件构建的，Retriever 子类就必须实现**读取磁盘文件**的逻辑。
+  - **子类实现**:
     ```python
-    def db_retriever(query, user_id):
-        # 连接数据库并执行 SQL 查询获取上下文
-        cursor = db_connection.cursor()
-        sql = "SELECT user_profile FROM users WHERE id = %s"
-        cursor.execute(sql, (user_id,))
-        return cursor.fetchone()[0]
+    class FileRetriever(BaseRetriever):
+        def __init__(self, file_path: str):
+            self.file_path = file_path
+
+        def retrieve(self, query: str) -> str:
+            # 读取本地磁盘文件内容作为上下文
+            with open(self.file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            return extract_relevant_info(query, content)
     ```
-- **引出后续**: 刚才讲的是最基础的形态，但面对海量的非结构化文档（PDF、Word），我们该怎么存？怎么搜最快？这就需要引入更强大的形态——**向量数据库**。
+- **形态 2: 关系型数据库 (RDBMS)** *[动画步进 3: 出现形态2及子类实现]*
+  - 如果企业知识被结构化存入了 MySQL 等关系型数据库，Retriever 子类就必须包含**执行 SQL 甚至拼装查询**的逻辑。
+  - **子类实现**:
+    ```python
+    class DatabaseRetriever(BaseRetriever):
+        def __init__(self, db_connection):
+            self.db_connection = db_connection
+
+        def retrieve(self, query: str) -> str:
+            # 连接数据库并执行 SQL 查询获取上下文
+            cursor = self.db_connection.cursor()
+            sql = "SELECT knowledge_text FROM rag_docs WHERE topic = %s"
+            cursor.execute(sql, (query,))
+            result = cursor.fetchone()
+            return result[0] if result else ""
+    ```
+- **引出后续**: 基于多态，我们的 Generator 完全不需要关心底层是查文件还是查 DB。但如果面对海量的非结构化文档（PDF、Word），磁盘扫文件太慢，SQL 匹配又不准，我们该怎么存？这就需要引入全新的检索形态——**向量数据库 (VectorDatabaseRetriever)**。
 
 ## 幻灯片 5: 从 RAG 到 Agent (引入 Tool Calling)
 - **Agent 的定义**: 感知 (Perception) -> 大脑 (Brain/LLM) -> 记忆 (Memory) -> 行动 (Action/Tools)。
