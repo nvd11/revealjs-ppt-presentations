@@ -421,6 +421,65 @@ def generate_answer(user_query, retrieved_chunks):
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 10: RAG Agent Orchestration & OOP
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.1em;">Orchestration: The RAG Agent</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Part 1: Intro & LCEL vs Imperative -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.7em; margin-bottom: 5px; color: #ff79c6;"><strong>Architecture Decision: LCEL vs. Imperative</strong></p>
+                    <p style="font-size: 0.6em; line-height: 1.4; margin-bottom: 5px;">
+                        Tutorials often use 1-line LCEL (<code>chain = retriever | prompt | llm</code>). While terse, it's a black box for debugging. For enterprise systems, we advocate <strong>Imperative Python</strong> for transparency, easy debugging, and conditional routing (like Early Exits).
+                    </p>
+                </div>
+
+                <!-- Part 2: Agent Code (Dependency Injection) -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.7em; margin-bottom: 5px; color: #8be9fd;"><strong>Dependency Injection (OOP at its best)</strong></p>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.55em; line-height: 1.2;">
+class RAGAgent:
+    # Decoupled! The agent doesn't care if it's PGVector or Pinecone, Gemini or GPT.
+    def __init__(self, retriever: BaseRetriever, generator: ILLMGenerator):
+        self.retriever = retriever
+        self.generator = generator
+
+    async def ask(self, question: str, top_k=3, topic_filters=None) -> RAGResponse:
+        # 1. Retrieval Phase
+        retrieved_contexts = await self.retriever.ainvoke(
+            input=question, config={"top_k": top_k, "topic_filters": topic_filters}
+        )
+        
+        # 💡 High-light: Early Exit (Prevents hallucination & saves massive API costs)
+        if not retrieved_contexts:
+            return RAGResponse(query=question, answer="No relevant context found.", contexts=[])
+
+        # 2. Generation Phase (Executes ONLY if context is found)
+        answer = await self.generator.ainvoke({"context": retrieved_contexts, "question": question})
+        return RAGResponse(query=question, answer=answer, contexts=retrieved_contexts)
+                    </code></pre>
+                </div>
+
+                <!-- Part 3: Assembly Code -->
+                <div class="fragment fade-up" style="margin-top: 10px;">
+                    <p style="font-size: 0.7em; margin-bottom: 5px; color: #50fa7b;"><strong>The Elegant Assembly</strong></p>
+                    <pre style="margin-top: 0; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-python" style="padding: 10px; font-size: 0.55em; line-height: 1.2;">
+# 1. Instantiate the specific subclasses
+my_retriever = PgVectorRetriever(db_conn)
+my_generator = GeminiGenerator(model_name="gemini-2.5-pro")
+
+# 2. Inject them into the Orchestrator
+# (If we switch to GPT-4 tomorrow, the RAGAgent code doesn't change a single line!)
+agent = RAGAgent(retriever=my_retriever, generator=my_generator)
+
+# 3. Execute
+result = await agent.ask(question="How to cook ribs?", topic_filters=["recipe"])
+                    </code></pre>
+                </div>
+            </section>
+
         </div>
     </div>
 
