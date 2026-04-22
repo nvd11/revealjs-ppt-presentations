@@ -318,6 +318,50 @@ chunk_embeddings = [embedder.embed_text(chunk) for chunk in chunks]
                 </div>
             </section>
 
+            <!-- ==============================
+                 Slide 8: Vector DB & Schema Design
+                 ============================== -->
+            <section>
+                <h3 style="font-size: 1.1em;">Vector DB & Schema Design</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <!-- Part 1: What is Vector DB -->
+                <div class="fragment fade-up">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #ff79c6;"><strong>What is a Vector Database?</strong></p>
+                    <p style="font-size: 0.7em; line-height: 1.4;">
+                        Optimized for storing and rapidly querying high-dimensional vector data via similarity metrics (e.g., Cosine Similarity, ANN). <br>
+                        <em>Top Choices: PostgreSQL (pgvector), Google AlloyDB, BigQuery, Milvus.</em>
+                    </p>
+                </div>
+
+                <!-- Part 2: document_chunks table -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #8be9fd;"><strong>Table 1: `document_chunks`</strong></p>
+                    <ul style="font-size: 0.65em; line-height: 1.4;">
+                        <li><strong>Fields:</strong> <code>id</code>, <code>doc_id</code>, <code>content (TEXT)</code>, <code>embedding (VECTOR)</code>.</li>
+                        <li><strong>Why store BOTH Vector and Text?</strong> The <code>embedding</code> is strictly for the <strong>Retriever</strong> to calculate spatial distance. However, the LLM cannot read float arrays. We must return the raw <code>content</code> text to the <strong>Generator</strong> for "open-book" reasoning.</li>
+                    </ul>
+                </div>
+
+                <!-- Part 3: document_topics table & SQL -->
+                <div class="fragment fade-up" style="margin-top: 15px;">
+                    <p style="font-size: 0.75em; margin-bottom: 5px; color: #50fa7b;"><strong>Table 2: `document_topics` (Metadata Pre-filtering)</strong></p>
+                    <p style="font-size: 0.65em; line-height: 1.4;">
+                        <strong>The "Recipe vs. Washing Machine" dilemma:</strong> When asking <em>"How to cook ribs?"</em>, querying the entire DB might accidentally surface washing machine manuals. By applying a SQL <code>WHERE topic = 'recipe'</code> filter BEFORE the vector search, we drastically improve speed and eliminate cross-domain hallucinations.
+                    </p>
+                    <pre style="margin-top: 5px; box-shadow: 0 5px 15px rgba(0,0,0,0.5);"><code data-trim class="language-sql" style="padding: 10px; font-size: 0.6em; line-height: 1.2;">
+-- Hybrid Search: Metadata Pre-filtering + Vector Similarity
+SELECT dc.content, 1 - (dc.embedding <=> '[0.11, 0.04, ...]') AS similarity_score
+FROM document_chunks dc
+JOIN document_topics dt ON dc.doc_id = dt.doc_id
+JOIN topics t ON dt.topic_id = t.topic_id
+WHERE t.topic_name = 'recipe' -- 1. Filter out irrelevant domains instantly
+ORDER BY dc.embedding <=> '[0.11, 0.04, ...]' -- 2. K-NN Vector Search
+LIMIT 3;
+                    </code></pre>
+                </div>
+            </section>
+
         </div>
     </div>
 
