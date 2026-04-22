@@ -239,30 +239,40 @@
     - *优势*: 易于打断点调试、状态透明，最重要的是——**可以非常轻松地实现业务分支阻断 (Early Exit)**。
 - **核心代码拆解 (动态讲解 `rag_agent.py`)**: *[动画步进 3: 展示代码与高光逻辑]*
   - *(配合 GitHub 源码讲解: src/agents/rag_agent.py)*
+  - **依赖注入与多态 (OOP 巅峰展现)**: Agent 本身不关心底层是查 PG 还是查本地文件，也不关心用的是 Gemini 还是 GPT。一切由外部传入！
   ```python
   class RAGAgent:
+      # 依赖注入 (Dependency Injection)：接收抽象基类，实现解耦
       def __init__(self, retriever: BaseRetriever, generator: ILLMGenerator):
           self.retriever = retriever
           self.generator = generator
 
       async def ask(self, question: str, top_k=3, topic_filters=None) -> RAGResponse:
-          # 1. 动态传参: 允许每次查询覆盖 top_k 和主题过滤
-          config = {"top_k": top_k, "topic_filters": topic_filters}
+          # 1. Retriever 阶段
+          retrieved_contexts = await self.retriever.ainvoke(
+              input=question, config={"top_k": top_k, "topic_filters": topic_filters}
+          )
           
-          # 2. Retriever 阶段
-          retrieved_contexts = await self.retriever.ainvoke(input=question, config=config)
-          
-          # 💡 高光时刻: 提前阻断 (Early Exit)
-          # 如果知识库里啥也没查到，直接返回！
-          # 避免调用 LLM，不仅防止大模型强行“胡编乱造”，还能省下高昂的大模型 API 费用。
+          # 💡 高光时刻: 提前阻断 (Early Exit) 预防幻觉并节省 API 成本
           if not retrieved_contexts:
               return RAGResponse(query=question, generated_answer="抱歉，知识库未找到相关内容。", retrieved_contexts=[])
 
-          # 3. Generator 阶段 (只有在找到上下文时才调用)
+          # 2. Generator 阶段 (仅在找到上下文时执行)
           answer = await self.generator.ainvoke({"context": retrieved_contexts, "question": question})
-          
-          # 4. 打包返回带溯源的结构
           return RAGResponse(query=question, generated_answer=answer, retrieved_contexts=retrieved_contexts)
+          
+  # =========================================
+  # 外层调用示例：展现纯正的 OOP 组装之美
+  # =========================================
+  # 1. 实例化具体的 Retriever 和 Generator 子类
+  my_retriever = PgVectorRetriever(db_conn)
+  my_generator = GeminiGenerator(model_name="gemini-2.5-pro")
+
+  # 2. 将它们注入给 RAGAgent (如果明天要换成 GPT-4，Agent 代码一行都不用改！)
+  agent = RAGAgent(retriever=my_retriever, generator=my_generator)
+
+  # 3. 发起业务调用
+  result = await agent.ask(question="请问带薪年假怎么算？", topic_filters=["hr_policy"])
   ```
 
 ## 幻灯片 10: 评估与挑战 (Evaluation)
