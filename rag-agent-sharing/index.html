@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>RAG Agent 核心架构与实战指南</title>
+
+    <!-- 引入 Reveal.js 核心样式 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <!-- 使用炫酷的 Dracula 极客主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/dracula.min.css" id="theme">
+    
+    <!-- 代码高亮主题 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/monokai.min.css" id="highlight-theme">
+    
+    <!-- 自定义一些样式让排版更适合技术演讲 -->
+    <style>
+        .reveal .slides section {
+            text-align: left; /* 默认文字靠左对齐，更适合阅读 */
+        }
+        .reveal .slides section.center-text {
+            text-align: center; /* 封面居中 */
+        }
+        .highlight-text {
+            color: #ff79c6; /* 亮粉色突出关键文字 */
+        }
+        .sub-text {
+            font-size: 0.7em;
+            color: #8be9fd; /* 淡青色用于补充说明 */
+            margin-top: 5px;
+        }
+        /* 突出重点的 Block 样式 */
+        .highlight-block {
+            background: rgba(68, 71, 90, 0.5); 
+            padding: 20px; 
+            border-radius: 10px; 
+            border-left: 8px solid #50fa7b; /* 绿色左边框强调 */
+            margin-top: 30px;
+        }
+        .highlight-block h4 {
+            margin-top: 0;
+            color: #50fa7b;
+        }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- ==============================
+                 Slide 1: 封面
+                 ============================== -->
+            <section class="center-text">
+                <h2>RAG Agent 核心架构与实战指南</h2>
+                <h4 style="color: #6272a4;">赋予大模型外部记忆与行动能力</h4>
+                <br><br>
+                <p>分享人: <strong style="color: #f8f8f2;">Jason</strong></p>
+                <p><small style="color: #6272a4;">2026-04</small></p>
+            </section>
+
+            <!-- ==============================
+                 Slide 2: 什么是 RAG Agent？
+                 ============================== -->
+            <section>
+                <h3>什么是 RAG Agent？</h3>
+                <hr style="border-color: #6272a4;">
+                
+                <div class="fragment fade-up">
+                    <h4>演进链路：从大脑到全能实体</h4>
+                    <ul style="line-height: 1.6;">
+                        <!-- 步进动画：依次展示三个层级 -->
+                        <li class="fragment fade-up">
+                            <strong class="highlight-text">LLM (纯大模型)</strong> = 🧠 大脑 
+                            <p class="sub-text">痛点：存在知识盲区、信息滞后和严重幻觉</p>
+                        </li>
+                        <li class="fragment fade-up">
+                            <strong class="highlight-text">RAG (检索增强生成)</strong> = 🧠 大脑 + 📚 知识库 
+                            <p class="sub-text">优势：提供事实依据，消灭私有领域的幻觉，变“闭卷”为“开卷”</p>
+                        </li>
+                        <li class="fragment fade-up">
+                            <strong class="highlight-text">RAG Agent (智能体)</strong> = 🧠 大脑 + 📚 知识库 + 🛠️ 工具/四肢 
+                            <p class="sub-text">终极形态：不仅能看文档回答问题，还能自主规划、执行 API 等具体操作</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 核心价值总结 Block -->
+                <div class="fragment fade-up highlight-block">
+                    <h4>🎯 核心价值</h4>
+                    <p style="font-size: 0.9em; margin: 0;">
+                        彻底解决大模型的信息滞后与幻觉问题，不仅能做到“懂行”，更能真正在企业内网实现<strong>复杂业务场景的自动化处理</strong>。
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- 引入 Reveal.js JS 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/notes/notes.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/markdown/markdown.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/plugin/highlight/highlight.js"></script>
+    
+    <script>
+        // 初始化 Reveal.js
+        Reveal.initialize({
+            hash: true,                 // 在 URL 中保持幻灯片状态
+            slideNumber: 'c/t',         // 显示页码 (当前页/总页数)
+            transition: 'slide',        // 页面切换动画 (none/fade/slide/convex/concave/zoom)
+            
+            // 启用所需插件
+            plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+        });
+    </script>
+</body>
+</html>
